@@ -5,13 +5,14 @@ import CircleBorder from "@mui/icons-material/CircleOutlined";
 import EditIcon from "@mui/icons-material/EditOutlined";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import { useState } from "react";
-import { Button, IconButton } from "@mui/material";
+import { IconButton } from "@mui/material";
 
 const ListItem = ({ description }: { description: string }) => {
   const [checked, setChecked] = useState(false);
 
   const checkHandler = () => {
     setChecked(!checked);
+    console.log("Flip");
   };
 
   return (
@@ -25,7 +26,7 @@ const ListItem = ({ description }: { description: string }) => {
         <p className={`${checked ? "line-through" : ""}`}>{description}</p>
         <IconButton
           aria-label="edit"
-          className={`ml-auto ${checked ? "hidden" : "block"}`}
+          className={`ml-auto mb-auto ${checked ? "hidden" : "block"}`}
           color="inherit"
           size="small"
         >
@@ -33,7 +34,7 @@ const ListItem = ({ description }: { description: string }) => {
         </IconButton>
         <IconButton
           aria-label="delete"
-          className={`ml-1 mr-2 ${checked ? "hidden" : "block"}`}
+          className={`ml-1 mr-2 mb-auto ${checked ? "hidden" : "block"}`}
           color="error"
           size="small"
         >
