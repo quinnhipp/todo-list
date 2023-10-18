@@ -14,8 +14,10 @@ import ItemModal from "./itemModal";
 import { useState } from "react";
 const UI = () => {
   const { isLoaded, userId, sessionId, getToken } = useAuth();
-  const [open, setOpen] = useState(true);
-  const handleOpen = () => setOpen(true);
+  const [open, setOpen] = useState<boolean>(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
   const handleClose = () => setOpen(false);
 
   return (
@@ -41,7 +43,9 @@ const UI = () => {
       </div>
       <div className="m-5 md:m-10">
         {userId && <NewButton onClick={setOpen} />}
-        {userId && open && <ItemModal onClick={handleOpen} />}
+        {userId && open && (
+          <ItemModal onClick={handleOpen} open={open} onClose={handleClose} />
+        )}
         {userId && <List />}
       </div>
     </div>

@@ -1,3 +1,4 @@
+"use client";
 import AddIcon from "@mui/icons-material/Add";
 import { Fab, IconButton } from "@mui/material";
 

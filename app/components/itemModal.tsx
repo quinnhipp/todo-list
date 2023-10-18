@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -18,20 +19,22 @@ const style = {
   p: 4,
 };
 
-const ItemModal = (props: any) => {
+type Props = {
+  open: boolean;
+  onClick: () => void;
+  onClose: () => void;
+};
+
+const ItemModal = (props: Props) => {
   //   const [open, setOpen] = useState(true);
   //   const handleOpen = () => setOpen(true);
   //   const handleClose = () => setOpen(false);
-
-  const handleButtonClick = () => {
-    props.onClick();
-  };
 
   return (
     <div>
       <Modal
         open={props.open}
-        onClose={props.handleClose}
+        onClose={props.onClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
