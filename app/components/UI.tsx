@@ -2,17 +2,21 @@
 import { IconButton } from "@mui/material";
 import List from "./list";
 import NewButton from "./newButton";
-import { SignIn, UserButton } from "@clerk/nextjs";
-import { useAuth } from "@clerk/nextjs";
-import SignInButton from "./signInButton";
-
+import {
+  SignIn,
+  SignInButton,
+  SignOutButton,
+  SignUp,
+  UserButton,
+  useAuth,
+} from "@clerk/nextjs";
+import ItemModal from "./itemModal";
+import { useState } from "react";
 const UI = () => {
   const { isLoaded, userId, sessionId, getToken } = useAuth();
-
-  // In case the user signs out while on the page.
-  // if (!isLoaded || !userId) {
-  //   return null;
-  // }
+  const [open, setOpen] = useState(true);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   return (
     <div>
@@ -21,12 +25,23 @@ const UI = () => {
           To-Do List
         </p>
         <div className="mt-auto mb-auto">
-          {!userId && <SignInButton />}
-          {userId && <UserButton afterSignOutUrl="/" />}
+          {!userId && (
+            <SignInButton>
+              <button className="px-4 py-2 bg-slate-300 text-slate-800 rounded-full">
+                Login
+              </button>
+            </SignInButton>
+          )}
+          {userId && (
+            <div className="p-0.5 bg-slate-300 text-clip rounded-full">
+              <UserButton afterSignOutUrl="/" />
+            </div>
+          )}
         </div>
       </div>
       <div className="m-5 md:m-10">
-        {userId && <NewButton />}
+        {userId && <NewButton onClick={setOpen} />}
+        {userId && open && <ItemModal onClick={handleOpen} />}
         {userId && <List />}
       </div>
     </div>

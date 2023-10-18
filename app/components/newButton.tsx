@@ -5,14 +5,14 @@ const newButtonHandler = () => {
   alert("This will do something soon");
 };
 
-const NewButton = () => {
+const NewButton = (props: any) => {
   return (
     <div className="bg-slate-300 rounded-full text-slate-800 bg-clip-text mb-4">
       <Fab
         aria-label="new"
         color="inherit"
         size="medium"
-        onClick={newButtonHandler}
+        onClick={props.onClick}
       >
         <AddIcon />
       </Fab>
