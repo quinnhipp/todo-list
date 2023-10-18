@@ -6,8 +6,16 @@ import EditIcon from "@mui/icons-material/EditOutlined";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import { useState } from "react";
 import { IconButton } from "@mui/material";
+import { Todo } from "./UI";
 
-const ListItem = ({ description }: { description: string }) => {
+type Props = {
+  description: string;
+  onEdit: () => void;
+  onDelete: (id: number) => void;
+  item: Todo;
+};
+
+const ListItem = ({ description, onEdit, onDelete, item }: Props) => {
   const [checked, setChecked] = useState(false);
 
   const checkHandler = () => {
@@ -29,6 +37,7 @@ const ListItem = ({ description }: { description: string }) => {
           className={`ml-auto mb-auto ${checked ? "hidden" : "block"}`}
           color="inherit"
           size="small"
+          onClick={onEdit}
         >
           <EditIcon />
         </IconButton>
@@ -37,6 +46,7 @@ const ListItem = ({ description }: { description: string }) => {
           className={`ml-1 mr-2 mb-auto ${checked ? "hidden" : "block"}`}
           color="error"
           size="small"
+          onClick={() => onDelete(item.id)}
         >
           <DeleteIcon />
         </IconButton>

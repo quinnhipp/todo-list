@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import NewButton from "./newButton";
 import { useState } from "react";
+import { TextField } from "@mui/material";
 
 const style = {
   position: "absolute" as "absolute",
@@ -21,11 +22,11 @@ const style = {
 
 type Props = {
   open: boolean;
-  onClick: () => void;
+  onNew: () => void;
   onClose: () => void;
 };
 
-const ItemModal = (props: Props) => {
+const ItemModal = ({ open, onNew: onClick, onClose }: Props) => {
   //   const [open, setOpen] = useState(true);
   //   const handleOpen = () => setOpen(true);
   //   const handleClose = () => setOpen(false);
@@ -33,12 +34,15 @@ const ItemModal = (props: Props) => {
   return (
     <div>
       <Modal
-        open={props.open}
-        onClose={props.onClose}
+        open={open}
+        onClose={onClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <div className="w-3/4 h-1/2 text-center">Hello Sir</div>
+        <>
+          <div className="w-3/4 h-1/2 text-center">Hello Sir</div>
+          <TextField value={"Random Stuff"} />
+        </>
       </Modal>
     </div>
   );

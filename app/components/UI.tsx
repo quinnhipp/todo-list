@@ -12,13 +12,32 @@ import {
 } from "@clerk/nextjs";
 import ItemModal from "./itemModal";
 import { useState } from "react";
+
+export type Todo = {
+  id: number;
+  todo: string;
+};
+
 const UI = () => {
   const { isLoaded, userId, sessionId, getToken } = useAuth();
   const [open, setOpen] = useState<boolean>(false);
+  const [todos, setTodos] = useState([
+    { id: 1, todo: "Step 1" },
+    { id: 2, todo: "Step 2" },
+    { id: 3, todo: "Step 3" },
+    { id: 4, todo: "Step 4" },
+  ]);
   const handleOpen = () => {
     setOpen(true);
   };
   const handleClose = () => setOpen(false);
+
+  const handleDelete = (id: number) => {
+    const index = todos.findIndex((item) => {
+      return item.id === id;
+    });
+    setTodos(todos.toSpliced(index, 1));
+  };
 
   return (
     <div>
@@ -42,11 +61,13 @@ const UI = () => {
         </div>
       </div>
       <div className="m-5 md:m-10">
-        {userId && <NewButton onClick={setOpen} />}
+        {userId && <NewButton onClick={handleOpen} />}
         {userId && open && (
-          <ItemModal onClick={handleOpen} open={open} onClose={handleClose} />
+          <ItemModal onNew={handleOpen} open={open} onClose={handleClose} />
         )}
-        {userId && <List />}
+        {userId && (
+          <List onEdit={handleOpen} onDelete={handleDelete} todos={todos} />
+        )}
       </div>
     </div>
   );
