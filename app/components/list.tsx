@@ -2,27 +2,19 @@
 import ListItem from "./listItem";
 import SortableList, { SortableItem } from "react-easy-sort";
 import arrayMove from "array-move";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Todo } from "./UI";
+import { TodoContext } from "./todoContext";
+import { ModalContext } from "./modalContext";
 
-type Props = {
-  onEdit: () => void;
-  onDelete: (id: number) => void;
-  todos: Todo[];
-};
+const List = () => {
+  const todos = useContext(TodoContext);
 
-const List = ({ onEdit, onDelete, todos }: Props) => {
   return (
     <div>
       <div className="flex flex-col gap-4">
-        {todos.map((item) => (
-          <ListItem
-            description={item.todo}
-            key={item.id}
-            onEdit={onEdit}
-            onDelete={onDelete}
-            item={item}
-          />
+        {todos?.todos.map((item) => (
+          <ListItem description={item.todo} key={item.id} item={item} />
         ))}
       </div>
     </div>

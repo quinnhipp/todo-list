@@ -4,19 +4,21 @@ import CircleIcon from "@mui/icons-material/Circle";
 import CircleBorder from "@mui/icons-material/CircleOutlined";
 import EditIcon from "@mui/icons-material/EditOutlined";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { IconButton } from "@mui/material";
 import { Todo } from "./UI";
+import { ModalContext } from "./modalContext";
+import { TodoContext } from "./todoContext";
 
 type Props = {
   description: string;
-  onEdit: () => void;
-  onDelete: (id: number) => void;
   item: Todo;
 };
 
-const ListItem = ({ description, onEdit, onDelete, item }: Props) => {
+const ListItem = ({ description, item }: Props) => {
   const [checked, setChecked] = useState(false);
+  const modal = useContext(ModalContext);
+  const todos = useContext(TodoContext);
 
   const checkHandler = () => {
     setChecked(!checked);
@@ -37,7 +39,7 @@ const ListItem = ({ description, onEdit, onDelete, item }: Props) => {
           className={`ml-auto mb-auto ${checked ? "hidden" : "block"}`}
           color="inherit"
           size="small"
-          onClick={onEdit}
+          onClick={modal?.handleOpenEdit}
         >
           <EditIcon />
         </IconButton>
@@ -46,7 +48,7 @@ const ListItem = ({ description, onEdit, onDelete, item }: Props) => {
           className={`ml-1 mr-2 mb-auto ${checked ? "hidden" : "block"}`}
           color="error"
           size="small"
-          onClick={() => onDelete(item.id)}
+          onClick={() => todos?.onDelete(item.id)}
         >
           <DeleteIcon />
         </IconButton>

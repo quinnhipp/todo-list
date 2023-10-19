@@ -12,6 +12,9 @@ import {
 } from "@clerk/nextjs";
 import ItemModal from "./itemModal";
 import { useState } from "react";
+import React from "react";
+import { ModalContext } from "./modalContext";
+import { TodoContext } from "./todoContext";
 
 export type Todo = {
   id: number;
@@ -20,30 +23,8 @@ export type Todo = {
 
 const UI = () => {
   const { isLoaded, userId, sessionId, getToken } = useAuth();
-  const [open, setOpen] = useState<boolean>(false);
-  const [edit, setEdit] = useState<boolean>(false);
-  const [todos, setTodos] = useState([
-    { id: 1, todo: "Step 1" },
-    { id: 2, todo: "Step 2" },
-    { id: 3, todo: "Step 3" },
-    { id: 4, todo: "Step 4" },
-  ]);
-  const handleOpenNew = () => {
-    setOpen(true);
-    setEdit(false);
-  };
-  const handleOpenEdit = () => {
-    setOpen(true);
-    setEdit(true);
-  };
-  const handleClose = () => setOpen(false);
-
-  const handleDelete = (id: number) => {
-    const index = todos.findIndex((item) => {
-      return item.id === id;
-    });
-    setTodos(todos.toSpliced(index, 1));
-  };
+  const modal = React.useContext(ModalContext);
+  const todos = React.useContext(TodoContext);
 
   return (
     <div>
@@ -67,18 +48,9 @@ const UI = () => {
         </div>
       </div>
       <div className="m-5 md:m-10">
-        {userId && <NewButton onClick={handleOpenNew} />}
-        {userId && open && (
-          <ItemModal
-            onNew={edit ? handleOpenEdit : handleOpenNew}
-            open={open}
-            edit={edit}
-            onClose={handleClose}
-          />
-        )}
-        {userId && (
-          <List onEdit={handleOpenEdit} onDelete={handleDelete} todos={todos} />
-        )}
+        {userId && <NewButton onClick={modal!.handleOpenNew} />}
+        {userId && modal?.open && <ItemModal />}
+        {userId && <List />}
       </div>
     </div>
   );

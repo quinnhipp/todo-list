@@ -1,10 +1,6 @@
 "use client";
 import AddIcon from "@mui/icons-material/Add";
-import { Fab, IconButton } from "@mui/material";
-
-const newButtonHandler = () => {
-  alert("This will do something soon");
-};
+import { Fab } from "@mui/material";
 
 type Props = {
   onClick: () => void;
