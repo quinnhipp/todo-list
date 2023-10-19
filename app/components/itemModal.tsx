@@ -8,29 +8,14 @@ import NewButton from "./newButton";
 import { useState } from "react";
 import { TextField } from "@mui/material";
 
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
-
 type Props = {
   open: boolean;
+  edit: boolean;
   onNew: () => void;
   onClose: () => void;
 };
 
-const ItemModal = ({ open, onNew: onClick, onClose }: Props) => {
-  //   const [open, setOpen] = useState(true);
-  //   const handleOpen = () => setOpen(true);
-  //   const handleClose = () => setOpen(false);
-
+const ItemModal = ({ open, edit, onNew, onClose }: Props) => {
   return (
     <div>
       <Modal
@@ -38,10 +23,20 @@ const ItemModal = ({ open, onNew: onClick, onClose }: Props) => {
         onClose={onClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
+        className="bg-slate-100"
       >
         <>
-          <div className="w-3/4 h-1/2 text-center">Hello Sir</div>
-          <TextField value={"Random Stuff"} />
+          <div className="flex flex-col pt-5 items-center gap-10">
+            <div className="w-3/4 h-1/2 text-center text-4xl">
+              {edit ? "Edit Item" : "New Item"}
+            </div>
+            <TextField
+              label="Description"
+              value={edit ? "Edit" : ""}
+              className="w-full"
+              color="primary"
+            />
+          </div>
         </>
       </Modal>
     </div>

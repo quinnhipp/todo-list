@@ -21,14 +21,20 @@ export type Todo = {
 const UI = () => {
   const { isLoaded, userId, sessionId, getToken } = useAuth();
   const [open, setOpen] = useState<boolean>(false);
+  const [edit, setEdit] = useState<boolean>(false);
   const [todos, setTodos] = useState([
     { id: 1, todo: "Step 1" },
     { id: 2, todo: "Step 2" },
     { id: 3, todo: "Step 3" },
     { id: 4, todo: "Step 4" },
   ]);
-  const handleOpen = () => {
+  const handleOpenNew = () => {
     setOpen(true);
+    setEdit(false);
+  };
+  const handleOpenEdit = () => {
+    setOpen(true);
+    setEdit(true);
   };
   const handleClose = () => setOpen(false);
 
@@ -61,12 +67,17 @@ const UI = () => {
         </div>
       </div>
       <div className="m-5 md:m-10">
-        {userId && <NewButton onClick={handleOpen} />}
+        {userId && <NewButton onClick={handleOpenNew} />}
         {userId && open && (
-          <ItemModal onNew={handleOpen} open={open} onClose={handleClose} />
+          <ItemModal
+            onNew={edit ? handleOpenEdit : handleOpenNew}
+            open={open}
+            edit={edit}
+            onClose={handleClose}
+          />
         )}
         {userId && (
-          <List onEdit={handleOpen} onDelete={handleDelete} todos={todos} />
+          <List onEdit={handleOpenEdit} onDelete={handleDelete} todos={todos} />
         )}
       </div>
     </div>
