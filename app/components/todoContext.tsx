@@ -1,9 +1,14 @@
 import { createContext, useState } from "react";
 import { Todo } from "./UI";
+import React from "react";
+import { ModalContext } from "./modalContext";
 
 type TodoContext = {
   todos: Todo[];
+  activeID: number;
   onDelete: (id: number) => void;
+  onSave: (id: number, description: string) => void;
+  changeActiveID: (id: number) => void;
 };
 
 export const TodoContext = createContext<TodoContext | null>(null);
@@ -15,6 +20,13 @@ const TodoProvider = ({ children }: React.PropsWithChildren) => {
     { id: 3, todo: "Step 3" },
     { id: 4, todo: "Step 4" },
   ]);
+  const [activeID, setActiveID] = useState(0);
+  const modal = React.useContext(ModalContext);
+  const [nextID, setNextID] = useState(todos.length + 1);
+
+  const handleNextID = () => {
+    setNextID(nextID + 1);
+  };
 
   const handleDelete = (id: number) => {
     const index = todos.findIndex((item) => {
@@ -23,9 +35,36 @@ const TodoProvider = ({ children }: React.PropsWithChildren) => {
     setTodos(todos.toSpliced(index, 1));
   };
 
+  const onSave = (id: number, item: string) => {
+    const index = todos.findIndex((item) => {
+      return item.id === id;
+    });
+    if (id === 0) {
+      setTodos(todos.toSpliced(todos.length, 0, { id: nextID, todo: item }));
+      console.log(nextID);
+      handleNextID();
+      console.log(nextID);
+    } else {
+      setTodos(todos.toSpliced(index, 1, { id, todo: item }));
+    }
+    setActiveID(0);
+  };
+
+  const changeActiveID = (id: number) => {
+    setActiveID(id);
+  };
+
   return (
     <>
-      <TodoContext.Provider value={{ todos, onDelete: handleDelete }}>
+      <TodoContext.Provider
+        value={{
+          todos,
+          activeID,
+          onDelete: handleDelete,
+          onSave,
+          changeActiveID,
+        }}
+      >
         {children}
       </TodoContext.Provider>
     </>

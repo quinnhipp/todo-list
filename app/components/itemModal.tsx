@@ -13,6 +13,7 @@ import { TodoContext } from "./todoContext";
 const ItemModal = () => {
   const modal = React.useContext(ModalContext);
   const todos = React.useContext(TodoContext);
+  const [description, setDescription] = useState("");
 
   return (
     <div>
@@ -30,10 +31,22 @@ const ItemModal = () => {
             </div>
             <TextField
               label="Description"
-              value={modal?.isEdit ? "Edit" : ""}
+              value={description}
               className="w-full"
               color="primary"
+              onChange={(e) => setDescription(e.target.value)}
             />
+            <div>
+              <Button onClick={() => modal?.handleClose()}>Cancel</Button>
+              <Button
+                onClick={() => {
+                  todos?.onSave(todos.activeID, description);
+                  modal?.handleClose();
+                }}
+              >
+                Save
+              </Button>
+            </div>
           </div>
         </>
       </Modal>

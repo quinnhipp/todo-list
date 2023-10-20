@@ -39,7 +39,10 @@ const ListItem = ({ description, item }: Props) => {
           className={`ml-auto mb-auto ${checked ? "hidden" : "block"}`}
           color="inherit"
           size="small"
-          onClick={modal?.handleOpenEdit}
+          onClick={() => {
+            modal?.handleOpenEdit();
+            todos?.changeActiveID(item.id);
+          }}
         >
           <EditIcon />
         </IconButton>
