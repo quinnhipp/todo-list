@@ -36,7 +36,21 @@ const TodoProvider = ({ children }: React.PropsWithChildren) => {
     setTodos(todos.toSpliced(index, 1));
   };
 
-  const onSave = (id: number, item: string) => {
+  const SendPostRequest = async (id: string, description: string) => {
+    const result = await fetch("/api/1", {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userID: id,
+        description: description,
+      }),
+      method: "POST",
+    });
+  };
+
+  const onSave = async (id: number, item: string) => {
     const index = todos.findIndex((item) => {
       return item.id === id;
     });
@@ -48,6 +62,7 @@ const TodoProvider = ({ children }: React.PropsWithChildren) => {
     } else {
       setTodos(todos.toSpliced(index, 1, { id, todo: item }));
     }
+    await SendPostRequest(id.toString(), item);
     setActiveID(0);
   };
 

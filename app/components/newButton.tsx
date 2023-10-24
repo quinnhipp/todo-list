@@ -9,7 +9,13 @@ type Props = {
 const NewButton = ({ onClick }: Props) => {
   return (
     <div className="bg-slate-300 rounded-full text-slate-800 bg-clip-text mb-4">
-      <Fab aria-label="new" color="inherit" size="medium" onClick={onClick}>
+      <Fab
+        aria-label="new"
+        color="inherit"
+        size="medium"
+        onClick={onClick}
+        className="bg-slate-300"
+      >
         <AddIcon />
       </Fab>
     </div>

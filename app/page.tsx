@@ -1,11 +1,9 @@
 "use client";
 import React from "react";
-import ListItem from "./components/listItem";
-import List from "./components/list";
 import UI from "./components/UI";
-import { UserButton } from "@clerk/nextjs";
 import TodoProvider from "./components/todoContext";
 import ModalProvider from "./components/modalContext";
+import { Button } from "@mui/material";
 
 export default function Home() {
   return (
