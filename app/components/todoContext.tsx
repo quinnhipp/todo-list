@@ -54,21 +54,6 @@ const TodoProvider = ({ children }: React.PropsWithChildren) => {
     });
   };
 
-  const SendGetRequest = async (id: string) => {
-    const result = await fetch("/api/1", {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userID: id,
-      }),
-      method: "GET",
-    });
-  };
-
-  console.log(SendGetRequest(userEmail));
-
   const onSave = async (id: number, item: string) => {
     console.log(userEmail);
     const index = todos.findIndex((item) => {
