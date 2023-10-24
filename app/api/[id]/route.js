@@ -9,8 +9,8 @@ export async function GET(req, res) {
   // Extract the "id" from the URL by splitting the URL and taking the last element
   const id = req.url.split("/").pop();
 
-  // Log the extracted "id" to the console (for debugging purposes)
-  console.log(id);
+    // Log the extracted "id" to the console (for debugging purposes)
+    const body = await req.json();
 
   // Check if the database instance has been initialized
   if (!db) {
@@ -22,7 +22,8 @@ export async function GET(req, res) {
   }
 
   // Perform a database query to retrieve an item based on the id
-  const item = await db.get("SELECT * FROM items WHERE id = ?", id);
+  const item = await db.get("SELECT * FROM items WHERE userID = ?", body.userID);
+  console.log(item);
 
   // Return the items as a JSON response with status 200
   return new Response(JSON.stringify(item), {
@@ -37,7 +38,6 @@ export async function POST(req, res) {
   const id = req.url.split("/").pop();
 
   // Log the extracted "id" to the console (for debugging purposes)
-  console.log(id);
   const body = await req.json();
 
   // Check if the database instance has been initialized
@@ -54,8 +54,8 @@ export async function POST(req, res) {
     const item = await db.prepare(
       "INSERT INTO items (userID, description) VALUES (?, ?)"
     );
-    await item.run([body.id, body.description]);
-    console.log(item);
+    console.log(body);
+    await item.run([body.userID, body.description]);
     // Return the items as a JSON response with status 200
     return new Response(JSON.stringify(item), {
       headers: { "Content-Type": "application/json" },
