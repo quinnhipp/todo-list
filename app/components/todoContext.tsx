@@ -4,14 +4,13 @@ import { Todo } from "./UI";
 import React from "react";
 import { ModalContext } from "./modalContext";
 import { useUser } from "@clerk/nextjs";
-import { log } from "console";
 
 type TodoContext = {
   todos: Todo[];
   activeID: number;
   userEmail: string;
   onDelete: (id: number) => void;
-  onSave: (id: number, description: string) => void;
+  onSave: (id: number, emailAddress: string, description: string) => void;
   changeActiveID: (id: number) => void;
 };
 
@@ -40,22 +39,35 @@ const TodoProvider = ({ children }: React.PropsWithChildren) => {
     setTodos(todos.toSpliced(index, 1));
   };
 
-  const SendPostRequest = async (id: string, description: string) => {
+  const SendPostRequest = async (emailAddress: string, description: string) => {
+    console.log(emailAddress, description);
     const result = await fetch("/api/1", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userID: id,
+        userID: emailAddress,
         description: description,
       }),
       method: "POST",
     });
   };
 
-  const onSave = async (id: number, item: string) => {
-    console.log(userEmail);
+  const GetRequest = async (emailAddress: string) => {
+    return await fetch("/api", {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userID: emailAddress,
+      }),
+      method: "GET",
+    });
+  };
+
+  const onSave = async (id: number, emailAddress: string, item: string) => {
     const index = todos.findIndex((item) => {
       return item.id === id;
     });
@@ -67,7 +79,7 @@ const TodoProvider = ({ children }: React.PropsWithChildren) => {
     } else {
       setTodos(todos.toSpliced(index, 1, { id, todo: item }));
     }
-    await SendPostRequest(userEmail!, item);
+    await SendPostRequest(emailAddress, item);
     setActiveID(0);
   };
 

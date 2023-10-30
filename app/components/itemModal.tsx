@@ -9,11 +9,14 @@ import { useState } from "react";
 import { TextField } from "@mui/material";
 import { ModalContext } from "./modalContext";
 import { TodoContext } from "./todoContext";
+import { useUser } from "@clerk/nextjs";
 
 const ItemModal = () => {
   const modal = React.useContext(ModalContext);
   const todos = React.useContext(TodoContext);
   const [description, setDescription] = useState("");
+  const { user } = useUser();
+  const emailAddress = user?.primaryEmailAddress?.emailAddress ?? "";
 
   return (
     <div>
@@ -40,11 +43,14 @@ const ItemModal = () => {
               <Button onClick={() => modal?.handleClose()}>Cancel</Button>
               <Button
                 onClick={() => {
-                  todos?.onSave(todos.activeID, description);
+                  if (modal?.isEdit) {
+                  } else {
+                    todos?.onSave(todos.activeID, emailAddress, description);
+                  }
                   modal?.handleClose();
                 }}
               >
-                Save
+                {modal?.isEdit ? "Save Edit" : "Save New"}
               </Button>
             </div>
           </div>

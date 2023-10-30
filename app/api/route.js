@@ -1,5 +1,6 @@
 import sqlite3 from "sqlite3";
 import { open, Database } from "sqlite";
+import { auth } from "@clerk/nextjs";
 
 // Let's initialize it as null initially, and we will assign the actual database instance later.
 let db = null;
@@ -16,7 +17,10 @@ export async function GET(req, res) {
   }
 
   // Perform a database query to retrieve all items from the "items" table
-  const items = await db.all("SELECT * FROM items");
+  const items = await db.all(
+    "SELECT * FROM items WHERE userID = ?",
+    emailAddress
+  );
 
   // Return the items as a JSON response with status 200
   return new Response(JSON.stringify(items), {
