@@ -25,22 +25,28 @@ const ItemModal = () => {
         onClose={modal?.handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-        className="bg-slate-100"
+        className="bg-slate-700"
       >
         <>
           <div className="flex flex-col pt-5 items-center gap-10">
             <div className="w-3/4 h-1/2 text-center text-4xl">
               {modal?.isEdit ? "Edit Item" : "New Item"}
             </div>
-            <TextField
-              label="Description"
-              value={description}
-              className="w-full"
-              color="primary"
-              onChange={(e) => setDescription(e.target.value)}
-            />
-            <div>
-              <Button onClick={() => modal?.handleClose()}>Cancel</Button>
+            <div className="p-2 bg-slate-500 w-1/2 rounded-3xl">
+              <TextField
+                label="Description"
+                value={description}
+                className="w-full bg-slate-500 text-white"
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </div>
+            <div className="flex gap-6">
+              <Button
+                onClick={() => modal?.handleClose()}
+                className="hover:shadow-md hover:shadow-white px-4 py-2 border-2 border-red-400 bg-slate-500 rounded-3xl text-white"
+              >
+                Cancel
+              </Button>
               <Button
                 onClick={() => {
                   if (modal?.isEdit) {
@@ -49,6 +55,7 @@ const ItemModal = () => {
                   }
                   modal?.handleClose();
                 }}
+                className="hover:shadow-md hover:shadow-white px-4 py-2 border-2 border-red-400 bg-slate-500 rounded-3xl text-white"
               >
                 {modal?.isEdit ? "Save Edit" : "Save New"}
               </Button>
